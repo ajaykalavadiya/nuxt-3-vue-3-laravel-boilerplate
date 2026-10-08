@@ -21,7 +21,10 @@ return [
 
     'allowed_origins' => explode(',', env('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,http://localhost:5173')),
 
-    'allowed_origins_patterns' => [],
+    // Locally, dev servers hop ports (3000 busy -> 3001, etc.), so allow any localhost port.
+    'allowed_origins_patterns' => env('APP_ENV') === 'local'
+        ? ['#^http://(localhost|127\.0\.0\.1)(:\d+)?$#']
+        : [],
 
     'allowed_headers' => ['*'],
 

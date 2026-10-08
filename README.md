@@ -20,7 +20,6 @@ cd vue3  && npm run dev -- --port 5173
 cd nuxt3 && npm run dev -- --port 3000
 ```
 
-API tests: `cd crud && php artisan test` · Type-check: `cd vue3 && npm run build`, `cd nuxt3 && npx nuxi typecheck`
 
 ## API
 
@@ -44,3 +43,16 @@ Both apps share the same SCSS design system (`assets/styles/_variables.scss` tok
 
 - **vue3**: `lib/http.ts` (fetch wrapper + `ApiError`), `api/*` services, `stores/auth.ts` (Pinia, token in localStorage), router guard in `router/index.ts`.
 - **nuxt3**: `plugins/api.ts` provides `$api` (`$fetch` with bearer token), `composables/useAuth.ts` (token in a cookie so SSR can fetch as the user), `middleware/auth.global.ts` (every page requires auth unless `definePageMeta({ guestOnly: true })`), list filters live in the URL query.
+
+## Tests
+
+| Layer | Tool | Command | Covers |
+| ----- | ---- | ------- | ------ |
+| API | Pest | `cd crud && php artisan test` | auth, CRUD, validation, ownership (403) |
+| Unit / component | Vitest + Vue Test Utils | `cd vue3 && npm test` | `http` client, auth store, forms, pagination, badge |
+| End-to-end | Playwright | `cd e2e && npm test` | login/logout/redirects, product + category CRUD in a real browser, run against **both** Vue and Nuxt |
+
+The Playwright run starts its own isolated stack (API :8001 with a fresh `crud/database/e2e.sqlite`, Vue :5174, Nuxt production build :3001), so it doesn't touch your dev servers or data. First time: `cd e2e && npm i && npx playwright install chromium`. Use `npm run test:ui` to debug, `npm run report` for the HTML report.
+
+Type-check: `cd vue3 && npm run build`, `cd nuxt3 && npx nuxi typecheck`.
+

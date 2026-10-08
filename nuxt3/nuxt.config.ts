@@ -11,6 +11,11 @@ export default defineNuxtConfig({
       apiBase: 'http://localhost:8000/api',
     },
   },
+  // The e2e suite builds into separate dirs so it never clobbers a running `nuxt dev`.
+  ...(process.env.E2E_BUILD && {
+    buildDir: '.nuxt-e2e',
+    nitro: { output: { dir: '.output-e2e' } },
+  }),
   css: ['~/assets/styles/main.scss'],
   vite: {
     css: {

@@ -1,0 +1,11 @@
+{
+  // Fold co-located tests (and other companions) under the file they belong to.
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "*.vue": "${capture}.test.ts, ${capture}.spec.ts",
+    "*.ts": "${capture}.test.ts, ${capture}.spec.ts",
+    "package.json": "package-lock.json, .npmrc, tsconfig*.json, vite.config.ts, vitest.config.ts, playwright.config.ts, nuxt.config.ts, .gitignore, .env*",
+    "composer.json": "composer.lock, phpunit.xml, .editorconfig, .gitattributes, .gitignore, .env*"
+  }
+}
